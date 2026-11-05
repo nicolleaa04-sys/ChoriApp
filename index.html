@@ -27,8 +27,11 @@
     .app-container { width: 100%; max-width: 420px; background: #ffffff; min-height: 94vh; border-radius: 28px; box-shadow: 0 16px 40px rgba(0,0,0,0.08); display: flex; flex-direction: column; overflow: hidden; position: relative; border: 1px solid rgba(0,0,0,0.04); }
     .header { padding: 16px 20px 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f3f6; }
     .header-brand { display: flex; align-items: center; gap: 12px; }
-    .logo-container { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #fbb03b, #f37023); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 14px rgba(243, 112, 35, 0.35); flex-shrink: 0; }
-    .logo-container svg { width: 24px; height: 24px; fill: #0f172a; }
+    
+    /* Contenedor del logo adaptado para imagen */
+    .logo-container { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+    .logo-container img { width: 100%; height: 100%; object-fit: contain; }
+
     .header-text h1 { font-size: 17px; font-weight: 800; color: #0b132a; line-height: 1.1; }
     .header-text p { font-size: 11px; color: var(--text-muted); font-weight: 500; }
     .btn-back { background: transparent; border: none; font-size: 20px; color: #0f172a; cursor: pointer; display: none; padding: 4px; line-height: 1; }
@@ -109,7 +112,8 @@
       <div class="header-brand">
         <button id="btnBack" class="btn-back" onclick="goToStep(currentStep - 1)">←</button>
         <div class="logo-container">
-          <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg>
+          <!-- Carga del archivo logo.png -->
+          <img src="logo.png" alt="Logo ChoriApp">
         </div>
         <div class="header-text">
           <h1>ChoriApp</h1>
@@ -277,7 +281,6 @@
     let selectedReason = "Me siento en riesgo";
     let timerInterval = null;
     let secondsElapsed = 2;
-    let holdTimeout = null;
     let holdStartTime = 0;
     let holdProgressInterval = null;
 
