@@ -28,7 +28,6 @@
     .header { padding: 16px 20px 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f3f6; }
     .header-brand { display: flex; align-items: center; gap: 12px; }
     
-    /* Contenedor del logo adaptado para imagen */
     .logo-container { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
     .logo-container img { width: 100%; height: 100%; object-fit: contain; }
 
@@ -40,9 +39,8 @@
     .step-dot { height: 4px; border-radius: 2px; width: 14px; background: #e5e7eb; transition: all 0.3s; }
     .step-dot.active { background: #f59e0b; width: 24px; }
     .badge-demo { background: #eef2ff; color: #4338ca; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
-    .user-info-bar { padding: 4px 20px 8px; font-size: 11px; color: #475569; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #e2e8f0; margin-bottom: 8px; }
+    .user-info-bar { padding: 4px 20px 8px; font-size: 11px; color: #475569; display: flex; justify-content: flex-start; align-items: center; border-bottom: 1px dashed #e2e8f0; margin-bottom: 8px; }
     .user-mall { font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 4px; }
-    .user-name { color: #64748b; font-weight: 500; }
     .screen { display: none; flex: 1; flex-direction: column; padding: 12px 20px 20px; }
     .screen.active { display: flex; }
     .section-tag { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #6366f1; letter-spacing: 0.8px; margin-bottom: 6px; }
@@ -112,7 +110,6 @@
       <div class="header-brand">
         <button id="btnBack" class="btn-back" onclick="goToStep(currentStep - 1)">←</button>
         <div class="logo-container">
-          <!-- Carga del archivo logo.png -->
           <img src="logo.png" alt="Logo ChoriApp">
         </div>
         <div class="header-text">
@@ -133,7 +130,6 @@
     </div>
     <div class="user-info-bar">
       <span class="user-mall">📍 Mall Plaza Central</span>
-      <span class="user-name">GRACE ARIANA FERNANDEZ V.</span>
     </div>
 
     <!-- PASO 1 -->
