@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChoriApp - Tu seguridad, en un solo clic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #121826;
+      --accent-red: #ea3a3a;
+      --accent-red-hover: #d32f2f;
+      --accent-yellow: #f5b027;
+      --yellow-light: #fff8eb;
+      --yellow-border: #f9d88a;
+      --bg-page: #f4f6fa;
+      --bg-card: #ffffff;
+      --text-muted: #6b7280;
+      --text-dark: #0f172a;
+      --green: #10b981;
+      --border-gray: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg-page); color: var(--text-dark); display: flex; justify-content: center; min-height: 100vh; padding: 12px; }
+    .app-container { width: 100%; max-width: 420px; background: #ffffff; min-height: 94vh; border-radius: 28px; box-shadow: 0 16px 40px rgba(0,0,0,0.08); display: flex; flex-direction: column; overflow: hidden; position: relative; border: 1px solid rgba(0,0,0,0.04); }
+    .header { padding: 16px 20px 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f3f6; }
+    .header-brand { display: flex; align-items: center; gap: 12px; }
+    .logo-container { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #fbb03b, #f37023); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 14px rgba(243, 112, 35, 0.35); flex-shrink: 0; }
+    .logo-container svg { width: 24px; height: 24px; fill: #0f172a; }
+    .header-text h1 { font-size: 17px; font-weight: 800; color: #0b132a; line-height: 1.1; }
+    .header-text p { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+    .btn-back { background: transparent; border: none; font-size: 20px; color: #0f172a; cursor: pointer; display: none; padding: 4px; line-height: 1; }
+    .sub-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px 4px; font-size: 12px; font-weight: 600; color: #374151; }
+    .step-indicator { display: flex; align-items: center; gap: 4px; }
+    .step-dot { height: 4px; border-radius: 2px; width: 14px; background: #e5e7eb; transition: all 0.3s; }
+    .step-dot.active { background: #f59e0b; width: 24px; }
+    .badge-demo { background: #eef2ff; color: #4338ca; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+    .user-info-bar { padding: 4px 20px 8px; font-size: 11px; color: #475569; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #e2e8f0; margin-bottom: 8px; }
+    .user-mall { font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 4px; }
+    .user-name { color: #64748b; font-weight: 500; }
+    .screen { display: none; flex: 1; flex-direction: column; padding: 12px 20px 20px; }
+    .screen.active { display: flex; }
+    .section-tag { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #6366f1; letter-spacing: 0.8px; margin-bottom: 6px; }
+    .screen-title { font-size: 25px; font-weight: 800; color: #0f172a; line-height: 1.15; margin-bottom: 8px; }
+    .screen-subtitle { font-size: 13.5px; color: var(--text-muted); line-height: 1.45; margin-bottom: 18px; }
+    .status-pill { background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; border-radius: 16px; padding: 5px 12px; display: inline-flex; align-items: center; gap: 6px; width: fit-content; margin-bottom: 14px; }
+    .status-pill::before { content: ""; width: 7px; height: 7px; background: #f59e0b; border-radius: 50%; }
+    .sos-btn-wrapper { margin: 10px 0 14px; position: relative; }
+    .sos-button { width: 100%; border: none; border-radius: 20px; padding: 18px 20px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; cursor: pointer; text-align: left; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 22px rgba(239, 68, 68, 0.35); position: relative; overflow: hidden; user-select: none; }
+    .sos-button .sos-text h2 { font-size: 17px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+    .sos-button .sos-text p { font-size: 11px; font-weight: 600; opacity: 0.9; margin-top: 2px; }
+    .sos-badge-circle { background: rgba(255,255,255,0.22); width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; }
+    .sos-progress-fill { position: absolute; left: 0; bottom: 0; top: 0; width: 0%; background: rgba(0,0,0,0.28); pointer-events: none; transition: width 0.05s linear; }
+    .btn-quick-alert { width: 100%; border: 1.5px solid #1e293b; background: #ffffff; border-radius: 18px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-weight: 700; font-size: 13px; color: #0f172a; margin-bottom: 14px; text-align: left; }
+    .btn-quick-alert p { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+    .badge-notice { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #475569; margin-bottom: auto; }
+    .badge-notice svg { width: 16px; height: 16px; color: var(--green); flex-shrink: 0; }
+    .radar-card { background: #0c1830; border-radius: 20px; padding: 30px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; text-align: center; margin-bottom: 16px; position: relative; overflow: hidden; }
+    .radar-circle { width: 90px; height: 90px; border-radius: 50%; background: #1a2a4b; border: 2px solid #3b82f6; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; position: relative; }
+    .radar-circle::after { content: ""; position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 1.5px solid #60a5fa; animation: pulse 2s infinite ease-out; }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
+    .radar-arrow { width: 34px; height: 34px; fill: #fbbf24; transform: rotate(-30deg); }
+    .radar-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .radar-card p { font-size: 11px; opacity: 0.75; }
+    .warning-box { background: var(--yellow-light); border: 1.5px solid var(--yellow-border); border-radius: 16px; padding: 12px; font-size: 12px; color: #854d0e; line-height: 1.35; margin-bottom: 14px; }
+    .warning-box strong { display: block; margin-bottom: 2px; font-weight: 700; }
+    .input-group { margin-bottom: 12px; }
+    .input-label { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block; }
+    .text-input { width: 100%; border: 1.5px solid var(--border-gray); border-radius: 14px; padding: 12px 14px; font-size: 13px; color: #0f172a; outline: none; transition: border 0.2s; }
+    .text-input:focus { border-color: #2563eb; }
+    .chips-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    .chip { border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 20px; padding: 6px 12px; font-size: 11px; font-weight: 600; color: #334155; cursor: pointer; transition: all 0.2s; }
+    .chip.active, .chip:hover { background: #e2e8f0; border-color: #94a3b8; }
+    .reason-card { border: 1.5px solid #fee2e2; background: #fff5f5; border-radius: 16px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; display: flex; align-items: flex-start; gap: 12px; }
+    .reason-card.medical { border-color: #ffe4e6; background: #fff1f2; }
+    .reason-card.lost { border-color: #fef3c7; background: #fffbeb; }
+    .reason-card.selected { border-color: #0f172a; box-shadow: 0 4px 14px rgba(0,0,0,0.08); transform: translateY(-1px); }
+    .reason-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .reason-card h4 { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+    .reason-card p { font-size: 11px; color: #64748b; line-height: 1.3; }
+    .coord-banner { background: #f1f5f9; border-radius: 12px; padding: 10px 14px; font-size: 11px; color: #334155; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-weight: 600; }
+    .btn-main { width: 100%; border: none; border-radius: 16px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-yellow { background: #fcd34d; color: #78350f; }
+    .btn-yellow:hover { background: #fbbf24; }
+    .btn-dark { background: #1e293b; color: #ffffff; }
+    .btn-dark:hover { background: #0f172a; }
+    .btn-outline { background: #ffffff; border: 1.5px solid #cbd5e1; color: #334155; }
+    .status-tracker-card { background: #0c1830; border-radius: 20px; padding: 14px 18px; color: #ffffff; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-size: 12px; font-weight: 700; }
+    .timeline { position: relative; padding-left: 36px; margin: 16px 0 20px; }
+    .timeline::before { content: ""; position: absolute; left: 14px; top: 8px; bottom: 8px; width: 2px; background: #e2e8f0; }
+    .timeline-item { position: relative; margin-bottom: 18px; }
+    .timeline-dot { position: absolute; left: -36px; top: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; background: #f1f5f9; color: #64748b; border: 2px solid #ffffff; }
+    .timeline-dot.done { background: #10b981; color: #ffffff; }
+    .timeline-item h5 { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .timeline-item p { font-size: 11px; color: #64748b; }
+    .info-summary-box { background: #f8fafc; border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; }
+    .info-row { margin-bottom: 8px; }
+    .info-row:last-child { margin-bottom: 0; }
+    .info-label { font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase; }
+    .info-value { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .footer-note { margin-top: auto; padding-top: 10px; font-size: 10px; color: #94a3b8; text-align: center; line-height: 1.3; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="header">
+      <div class="header-brand">
+        <button id="btnBack" class="btn-back" onclick="goToStep(currentStep - 1)">←</button>
+        <div class="logo-container">
+          <svg viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/></svg>
+        </div>
+        <div class="header-text">
+          <h1>ChoriApp</h1>
+          <p>Tu seguridad, en un solo clic</p>
+        </div>
+      </div>
+    </div>
+    <div class="sub-bar">
+      <div class="step-indicator">
+        <div class="step-dot active" id="dot1"></div>
+        <div class="step-dot" id="dot2"></div>
+        <div class="step-dot" id="dot3"></div>
+        <div class="step-dot" id="dot4"></div>
+        <span id="stepLabel" style="margin-left: 8px;">Paso 1 de 4</span>
+      </div>
+      <div class="badge-demo">MODO DEMO</div>
+    </div>
+    <div class="user-info-bar">
+      <span class="user-mall">📍 Mall Plaza Central</span>
+      <span class="user-name">GRACE ARIANA FERNANDEZ V.</span>
+    </div>
+
+    <!-- PASO 1 -->
+    <section class="screen active" id="step1">
+      <div class="status-pill">EQUIPO DE RESPUESTA ACTIVO</div>
+      <h2 class="screen-title">Tu seguridad,<br>en un solo clic.</h2>
+      <p class="screen-subtitle">Conectamos contigo al equipo de seguridad más cercano dentro del centro comercial.</p>
+      <div class="sos-btn-wrapper">
+        <button class="sos-button" id="sosHoldBtn">
+          <div class="sos-progress-fill" id="sosProgress"></div>
+          <div class="sos-text">
+            <h2>PEDIR AYUDA SOS</h2>
+            <p id="sosHelpLabel">MANTÉN PRESIONADO 2 SEGUNDOS</p>
+          </div>
+          <div class="sos-badge-circle">SOS</div>
+        </button>
+      </div>
+      <button class="btn-quick-alert" onclick="goToStep(2)">
+        <div>
+          <div>Alerta rápida con ubicación</div>
+          <p>Comparte tu ubicación y solicita un agente</p>
+        </div>
+        <span>📍</span>
+      </button>
+      <div class="badge-notice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>No necesitas registrarte · Atención dentro del mall</span>
+      </div>
+      <div class="footer-note">Si estás en peligro inmediato, llama también a emergencias locales.</div>
+    </section>
+
+    <!-- PASO 2 -->
+    <section class="screen" id="step2">
+      <div class="section-tag">PASO 2 · PEDIR AYUDA</div>
+      <h2 class="screen-title">Primero, encontremos dónde estás.</h2>
+      <p class="screen-subtitle">Compartiremos tu ubicación solo con el equipo de seguridad de este centro comercial.</p>
+      <div class="radar-card">
+        <div class="radar-circle">
+          <svg class="radar-arrow" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+        </div>
+        <h3 id="geoStatusTitle">Buscando tu ubicación...</h3>
+        <p id="geoStatusDesc">Puede tardar unos segundos dentro del mall</p>
+      </div>
+      <div class="warning-box" id="gpsWarning" style="display:none;">
+        <strong>⚠️ No pudimos obtener el GPS exacto</strong>
+        Dentro del centro comercial puedes escribir una referencia manual.
+      </div>
+      <div class="input-group">
+        <label class="input-label">Si el GPS falla, escribe una referencia</label>
+        <input type="text" id="manualLocation" class="text-input" placeholder="Ej. Piso 2 - zona de comidas" value="Piso 2 - zona de comidas">
+      </div>
+      <div style="display: flex; gap: 8px; margin-top: auto;">
+        <button class="btn-main btn-outline" style="flex:1;" onclick="setDemoLocation()">Usar demo</button>
+        <button class="btn-main btn-yellow" style="flex:1;" onclick="goToStep(3)">Continuar →</button>
+      </div>
+      <div class="footer-note">Si estás en peligro inmediato, llama también a emergencias locales.</div>
+    </section>
+
+    <!-- PASO 3 -->
+    <section class="screen" id="step3">
+      <div class="section-tag">PASO 3 · UBICAR</div>
+      <h2 class="screen-title">¿Qué necesitas?</h2>
+      <p class="screen-subtitle">Toca una opción. No tienes que explicar todo.</p>
+      <div class="reason-card selected" onclick="selectReason(this, 'Me siento en riesgo')">
+        <div class="reason-icon">🛡️</div>
+        <div>
+          <h4>Me siento en riesgo</h4>
+          <p>Acoso, amenaza o personas sospechosas</p>
+        </div>
+      </div>
+      <div class="reason-card medical" onclick="selectReason(this, 'Emergencia médica')">
+        <div class="reason-icon">🩺</div>
+        <div>
+          <h4>Emergencia médica</h4>
+          <p>Desmayo, caída o primeros auxilios</p>
+        </div>
+      </div>
+      <div class="reason-card lost" onclick="selectReason(this, 'Niño/persona extraviada')">
+        <div class="reason-icon">👤</div>
+        <div>
+          <h4>Niño/persona extraviada</h4>
+          <p>Menor o adulto mayor desorientado</p>
+        </div>
+      </div>
+      <div class="input-group" style="margin-top: 10px;">
+        <label class="input-label">Referencia exacta (opcional)</label>
+        <input type="text" id="finalReference" class="text-input" value="Piso 2 - zona de comidas frente a la entrada">
+      </div>
+      <div class="chips-row">
+        <span class="chip" onclick="addChip('Piso 1')">Piso 1</span>
+        <span class="chip active" onclick="addChip('Piso 2 · Comidas')">Piso 2 · Comidas</span>
+        <span class="chip" onclick="addChip('Estacionamiento E1')">Estacionamiento E1</span>
+      </div>
+      <div class="coord-banner">
+        <span>📍 Ubicación lista</span>
+        <span id="coordDisplay">-33.4489, -70.6693</span>
+      </div>
+      <button class="btn-main btn-dark" onclick="sendAlert()">ENVIAR SOLICITUD AHORA ↗</button>
+      <div class="footer-note">Si estás en peligro inmediato, llama también a emergencias locales.</div>
+    </section>
+
+    <!-- PASO 4 -->
+    <section class="screen" id="step4">
+      <div class="section-tag">PASO 4 · RECIBIR ESTADO</div>
+      <h2 class="screen-title">Solicitud recibida.</h2>
+      <p class="screen-subtitle">Quédate donde estás si es seguro. El equipo ya está avisado.</p>
+      <div class="status-tracker-card">
+        <span style="display:flex; align-items:center; gap:6px;">🟡 Alerta activa</span>
+        <span id="timerDisplay">00:02</span>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot done">✓</div>
+          <h5>Enviado</h5>
+          <p>Tu alerta fue transmitida a la central</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" id="dotStep2">2</div>
+          <h5>Recibido por seguridad</h5>
+          <p id="descStep2">Esperando confirmación...</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" id="dotStep3">3</div>
+          <h5>Ayuda en camino</h5>
+          <p id="descStep3">Esperando confirmación...</p>
+        </div>
+      </div>
+      <div class="info-summary-box">
+        <div class="info-row">
+          <div class="info-label">Motivo</div>
+          <div class="info-value" id="summaryReason">Me siento en riesgo</div>
+        </div>
+        <div class="info-row" style="margin-top:8px;">
+          <div class="info-label">Dónde</div>
+          <div class="info-value" id="summaryLocation">Piso 2 - zona de comidas</div>
+        </div>
+      </div>
+      <button class="btn-main btn-outline" style="margin-top:auto;" onclick="cancelAlert()">Ya llegó la ayuda / falsa alarma</button>
+      <div class="footer-note">Si estás en peligro inmediato, llama también a emergencias locales.</div>
+    </section>
+  </div>
+
+  <script>
+    let currentStep = 1;
+    let selectedReason = "Me siento en riesgo";
+    let timerInterval = null;
+    let secondsElapsed = 2;
+    let holdTimeout = null;
+    let holdStartTime = 0;
+    let holdProgressInterval = null;
+
+    function goToStep(step) {
+      if (step < 1) step = 1;
+      if (step > 4) step = 4;
+      currentStep = step;
+      document.querySelectorAll('.screen').forEach((el, idx) => {
+        el.classList.toggle('active', idx + 1 === step);
+      });
+      document.getElementById('btnBack').style.display = (step > 1 && step < 4) ? 'block' : 'none';
+      document.getElementById('stepLabel').textContent = `Paso ${step} de 4`;
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById(`dot${i}`);
+        if (i <= step) dot.classList.add('active');
+        else dot.classList.remove('active');
+      }
+      if (step === 2) initGeolocation();
+    }
+
+    function initGeolocation() {
+      const title = document.getElementById('geoStatusTitle');
+      const desc = document.getElementById('geoStatusDesc');
+      const warning = document.getElementById('gpsWarning');
+      title.textContent = "Buscando tu ubicación...";
+      desc.textContent = "Puede tardar unos segundos dentro del mall";
+      warning.style.display = 'none';
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude.toFixed(4);
+            const lng = pos.coords.longitude.toFixed(4);
+            document.getElementById('coordDisplay').textContent = `${lat}, ${lng}`;
+            title.textContent = "¡Ubicación detectada!";
+            desc.textContent = "Señales GPS conectadas";
+          },
+          () => {
+            title.textContent = "Señal GPS débil";
+            desc.textContent = "Usando referencia aproximada";
+            warning.style.display = 'block';
+          },
+          { timeout: 4000 }
+        );
+      } else {
+        warning.style.display = 'block';
+      }
+    }
+
+    function setDemoLocation() {
+      document.getElementById('manualLocation').value = "Piso 2 - zona de comidas frente a la entrada";
+      document.getElementById('coordDisplay').textContent = "-33.4489, -70.6693";
+      goToStep(3);
+    }
+
+    function selectReason(cardEl, reason) {
+      document.querySelectorAll('.reason-card').forEach(c => c.classList.remove('selected'));
+      cardEl.classList.add('selected');
+      selectedReason = reason;
+    }
+
+    function addChip(text) {
+      document.getElementById('finalReference').value = text;
+    }
+
+    function sendAlert() {
+      document.getElementById('summaryReason').textContent = selectedReason;
+      const ref = document.getElementById('finalReference').value || document.getElementById('manualLocation').value;
+      document.getElementById('summaryLocation').textContent = ref;
+      goToStep(4);
+      startTimer();
+      setTimeout(() => {
+        const dot2 = document.getElementById('dotStep2');
+        dot2.classList.add('done');
+        dot2.textContent = '✓';
+        document.getElementById('descStep2').textContent = 'Agente asignado: Central Centro';
+      }, 3500);
+      setTimeout(() => {
+        const dot3 = document.getElementById('dotStep3');
+        dot3.classList.add('done');
+        dot3.textContent = '✓';
+        document.getElementById('descStep3').textContent = 'Personal en trayecto';
+      }, 7000);
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      secondsElapsed = 2;
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('timerDisplay').textContent = `${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function cancelAlert() {
+      clearInterval(timerInterval);
+      goToStep(1);
+    }
+
+    const sosBtn = document.getElementById('sosHoldBtn');
+    const progressBar = document.getElementById('sosProgress');
+    const label = document.getElementById('sosHelpLabel');
+
+    function startHold(e) {
+      e.preventDefault();
+      holdStartTime = Date.now();
+      label.textContent = "MANTÉN PRESIONADO...";
+      holdProgressInterval = setInterval(() => {
+        const elapsed = Date.now() - holdStartTime;
+        const pct = Math.min(100, (elapsed / 2000) * 100);
+        progressBar.style.width = pct + '%';
+        if (elapsed >= 2000) {
+          endHold();
+          goToStep(2);
+        }
+      }, 30);
+    }
+
+    function endHold() {
+      clearInterval(holdProgressInterval);
+      progressBar.style.width = '0%';
+      label.textContent = "MANTÉN PRESIONADO 2 SEGUNDOS";
+    }
+
+    sosBtn.addEventListener('mousedown', startHold);
+    window.addEventListener('mouseup', endHold);
+    sosBtn.addEventListener('touchstart', startHold);
+    window.addEventListener('touchend', endHold);
+  </script>
+</body>
+</html>
