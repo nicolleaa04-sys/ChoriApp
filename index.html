@@ -3,50 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChoriApp - Tu seguridad en un solo clic</title>
+  <title>ChoriApp - Tu seguridad, en un solo clic</title>
 
-    <!-- Icono para pestaña y accesos directos -->
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
-    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
-    
-    <!-- Color de la barra superior en celulares -->
-    <meta name="theme-color" content="#0c1830">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- Icono para pestaña y accesos directos -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+  
+  <!-- Color de la barra superior en celulares -->
+  <meta name="theme-color" content="#0c1830">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #121826;
-      --accent-red: #ea3a3a;
-      --accent-red-hover: #d32f2f;
+      --primary: #0c1830;
+      --accent-red: #e11d48;
+      --accent-red-dark: #be123c;
       --accent-yellow: #f5b027;
-      --yellow-light: #fff8eb;
-      --yellow-border: #f9d88a;
-      --bg-page: #f4f6fa;
+      --yellow-light: #fffbeb;
+      --yellow-border: #fde68a;
+      --bg-page: #eef2f6;
       --bg-card: #ffffff;
-      --text-muted: #6b7280;
+      --text-muted: #475569;
       --text-dark: #0f172a;
-      --green: #10b981;
-      --border-gray: #e5e7eb;
+      --green: #059669;
+      --green-bg: #ecfdf5;
+      --border-gray: #cbd5e1;
       --blue-navy-dark: #0c1830;
       --blue-navy-light: #162a52;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg-page); color: var(--text-dark); display: flex; justify-content: center; min-height: 100vh; padding: 12px; }
-    .app-container { width: 100%; max-width: 420px; background: #ffffff; min-height: 94vh; border-radius: 28px; box-shadow: 0 16px 40px rgba(0,0,0,0.08); display: flex; flex-direction: column; overflow: hidden; position: relative; border: 1px solid rgba(0,0,0,0.04); }
 
-    /* PANTALLA SPLASH EN AZUL NOCHE */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      min-height: 95vh;
+      border-radius: 28px;
+      box-shadow: 0 18px 42px rgba(12, 24, 48, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(12, 24, 48, 0.08);
+    }
+
+    /* SPLASH SCREEN RÁPIDO (1.2s) EN AZUL NOCHE */
     .splash-screen {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at top, var(--blue-navy-light), var(--blue-navy-dark)) !important;
+      inset: 0;
+      background: radial-gradient(circle at top, var(--blue-navy-light), var(--blue-navy-dark));
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -55,7 +82,7 @@
       color: #ffffff;
       padding: 30px;
       text-align: center;
-      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+      transition: opacity 0.4s ease, visibility 0.4s;
     }
     .splash-screen.hidden {
       opacity: 0;
@@ -63,133 +90,763 @@
       pointer-events: none;
     }
     .splash-logo-card {
-      width: 120px;
-      height: 120px;
+      width: 112px;
+      height: 112px;
       background: #ffffff;
       border-radius: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12);
-      margin-bottom: 24px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      margin-bottom: 20px;
       padding: 14px;
-      animation: floatSplash 3s ease-in-out infinite alternate;
     }
     .splash-logo-card img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
-    @keyframes floatSplash {
-      0% { transform: translateY(0px) scale(1); }
-      100% { transform: translateY(-8px) scale(1.02); }
-    }
     .splash-title {
-      font-size: 32px;
+      font-size: 34px;
       font-weight: 800;
       letter-spacing: -0.5px;
-      color: #ffffff;
       margin-bottom: 6px;
     }
     .splash-slogan {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.88);
-      margin-bottom: 40px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 32px;
     }
     .splash-loader {
       width: 34px;
       height: 34px;
-      border: 3.5px solid rgba(255, 255, 255, 0.2);
+      border: 3.5px solid rgba(255, 255, 255, 0.25);
       border-top-color: #f5b027;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.7s linear infinite;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* HEADER ESTANDARIZADO EN TODOS LOS PASOS */
+    .header {
+      padding: 16px 20px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+      background: #ffffff;
+    }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-back {
+      background: #f1f5f9;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      width: 38px;
+      height: 38px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-container {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      padding: 4px;
+      box-shadow: 0 2px 6px rgba(12, 24, 48, 0.06);
+    }
+    .logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .header-text h1 {
+      font-size: 19px;
+      font-weight: 800;
+      color: #0c1830;
+      line-height: 1.1;
+    }
+    .header-text p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 600;
     }
 
-    /* HEADER */
-    .header { padding: 16px 20px 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f3f6; }
-    .header-brand { display: flex; align-items: center; gap: 12px; }
-    .logo-container { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; background: #ffffff; border: 1px solid #e2e8f0; }
-    .logo-container img { width: 100%; height: 100%; object-fit: contain; }
-    .header-text h1 { font-size: 17px; font-weight: 800; color: #0b132a; line-height: 1.1; }
-    .header-text p { font-size: 11px; color: var(--text-muted); font-weight: 500; }
-    .btn-back { background: transparent; border: none; font-size: 20px; color: #0f172a; cursor: pointer; display: none; padding: 4px; line-height: 1; }
-    .sub-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px 4px; font-size: 12px; font-weight: 600; color: #374151; }
-    .step-indicator { display: flex; align-items: center; gap: 4px; }
-    .step-dot { height: 4px; border-radius: 2px; width: 14px; background: #e5e7eb; transition: all 0.3s; }
-    .step-dot.active { background: #f59e0b; width: 24px; }
-    .badge-demo { background: #eef2ff; color: #4338ca; padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
-    .user-info-bar { padding: 4px 20px 8px; font-size: 11px; color: #475569; display: flex; justify-content: flex-start; align-items: center; border-bottom: 1px dashed #e2e8f0; margin-bottom: 8px; }
-    .user-mall { font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 4px; }
-    .screen { display: none; flex: 1; flex-direction: column; padding: 12px 20px 20px; }
-    .screen.active { display: flex; }
-    .section-tag { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #6366f1; letter-spacing: 0.8px; margin-bottom: 6px; }
-    .screen-title { font-size: 25px; font-weight: 800; color: #0f172a; line-height: 1.15; margin-bottom: 8px; }
-    .screen-subtitle { font-size: 13.5px; color: var(--text-muted); line-height: 1.45; margin-bottom: 18px; }
-    .status-pill { background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; border-radius: 16px; padding: 5px 12px; display: inline-flex; align-items: center; gap: 6px; width: fit-content; margin-bottom: 14px; }
-    .status-pill::before { content: ""; width: 7px; height: 7px; background: #f59e0b; border-radius: 50%; }
-    .sos-btn-wrapper { margin: 10px 0 14px; position: relative; }
-    .sos-button { width: 100%; border: none; border-radius: 20px; padding: 18px 20px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; cursor: pointer; text-align: left; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 22px rgba(239, 68, 68, 0.35); position: relative; overflow: hidden; user-select: none; }
-    .sos-button .sos-text h2 { font-size: 17px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-    .sos-button .sos-text p { font-size: 11px; font-weight: 600; opacity: 0.9; margin-top: 2px; }
-    .sos-badge-circle { background: rgba(255,255,255,0.22); width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; }
-    .sos-progress-fill { position: absolute; left: 0; bottom: 0; top: 0; width: 0%; background: rgba(0,0,0,0.28); pointer-events: none; transition: width 0.05s linear; }
-    .btn-quick-alert { width: 100%; border: 1.5px solid #1e293b; background: #ffffff; border-radius: 18px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-weight: 700; font-size: 13px; color: #0f172a; margin-bottom: 14px; text-align: left; }
-    .btn-quick-alert p { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
-    .badge-notice { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #475569; margin-bottom: auto; }
-    .badge-notice svg { width: 16px; height: 16px; color: var(--green); flex-shrink: 0; }
-    .radar-card { background: #0c1830; border-radius: 20px; padding: 30px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; text-align: center; margin-bottom: 16px; position: relative; overflow: hidden; }
-    .radar-circle { width: 90px; height: 90px; border-radius: 50%; background: #1a2a4b; border: 2px solid #3b82f6; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; position: relative; }
-    .radar-circle::after { content: ""; position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 1.5px solid #60a5fa; animation: pulse 2s infinite ease-out; }
-    @keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
-    .radar-arrow { width: 34px; height: 34px; fill: #fbbf24; transform: rotate(-30deg); }
-    .radar-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
-    .radar-card p { font-size: 11px; opacity: 0.75; }
-    .warning-box { background: var(--yellow-light); border: 1.5px solid var(--yellow-border); border-radius: 16px; padding: 12px; font-size: 12px; color: #854d0e; line-height: 1.35; margin-bottom: 14px; }
-    .warning-box strong { display: block; margin-bottom: 2px; font-weight: 700; }
-    .input-group { margin-bottom: 12px; }
-    .input-label { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block; }
-    .text-input { width: 100%; border: 1.5px solid var(--border-gray); border-radius: 14px; padding: 12px 14px; font-size: 13px; color: #0f172a; outline: none; transition: border 0.2s; }
-    .text-input:focus { border-color: #2563eb; }
-    .chips-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-    .chip { border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 20px; padding: 6px 12px; font-size: 11px; font-weight: 600; color: #334155; cursor: pointer; transition: all 0.2s; }
-    .chip.active, .chip:hover { background: #e2e8f0; border-color: #94a3b8; }
-    .reason-card { border: 1.5px solid #fee2e2; background: #fff5f5; border-radius: 16px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; display: flex; align-items: flex-start; gap: 12px; }
-    .reason-card.medical { border-color: #ffe4e6; background: #fff1f2; }
-    .reason-card.lost { border-color: #fef3c7; background: #fffbeb; }
-    .reason-card.selected { border-color: #0f172a; box-shadow: 0 4px 14px rgba(0,0,0,0.08); transform: translateY(-1px); }
-    .reason-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
-    .reason-card h4 { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
-    .reason-card p { font-size: 11px; color: #64748b; line-height: 1.3; }
-    .coord-banner { background: #f1f5f9; border-radius: 12px; padding: 10px 14px; font-size: 11px; color: #334155; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-weight: 600; }
-    .btn-main { width: 100%; border: none; border-radius: 16px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .btn-yellow { background: #fcd34d; color: #78350f; }
-    .btn-yellow:hover { background: #fbbf24; }
-    .btn-dark { background: #1e293b; color: #ffffff; }
-    .btn-dark:hover { background: #0f172a; }
-    .btn-outline { background: #ffffff; border: 1.5px solid #cbd5e1; color: #334155; }
-    .status-tracker-card { background: #0c1830; border-radius: 20px; padding: 14px 18px; color: #ffffff; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-size: 12px; font-weight: 700; }
-    .timeline { position: relative; padding-left: 36px; margin: 16px 0 20px; }
-    .timeline::before { content: ""; position: absolute; left: 14px; top: 8px; bottom: 8px; width: 2px; background: #e2e8f0; }
-    .timeline-item { position: relative; margin-bottom: 18px; }
-    .timeline-dot { position: absolute; left: -36px; top: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; background: #f1f5f9; color: #64748b; border: 2px solid #ffffff; }
-    .timeline-dot.done { background: #10b981; color: #ffffff; }
-    .timeline-item h5 { font-size: 13px; font-weight: 700; color: #0f172a; }
-    .timeline-item p { font-size: 11px; color: #64748b; }
-    .info-summary-box { background: #f8fafc; border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; }
-    .info-row { margin-bottom: 8px; }
-    .info-row:last-child { margin-bottom: 0; }
-    .info-label { font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase; }
-    .info-value { font-size: 13px; font-weight: 700; color: #0f172a; }
-    .footer-note { margin-top: auto; padding-top: 10px; font-size: 10px; color: #94a3b8; text-align: center; line-height: 1.3; }
+    /* BARRA DE PASOS Y SWITCH MODO DEMO / GUARDIA */
+    .sub-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .step-dot {
+      height: 5px;
+      border-radius: 3px;
+      width: 14px;
+      background: #cbd5e1;
+      transition: all 0.25s;
+    }
+    .step-dot.active {
+      background: #f59e0b;
+      width: 26px;
+    }
+
+    /* BOTÓN INTERACTIVO MODO DEMO / VISTA GUARDIA */
+    .btn-mode-toggle {
+      background: #eef2ff;
+      color: #3730a3;
+      border: 1.5px solid #c7d2fe;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-mode-toggle:hover {
+      background: #e0e7ff;
+    }
+    .btn-mode-toggle.guard-active {
+      background: #0c1830;
+      color: #f5b027;
+      border-color: #0c1830;
+    }
+
+    .user-info-bar {
+      padding: 6px 20px 10px;
+      font-size: 13px;
+      color: #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed #cbd5e1;
+      margin-bottom: 6px;
+    }
+    .user-mall {
+      font-weight: 700;
+      color: #0c1830;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* PANTALLAS Y TIPOGRAFÍA AMPLIADA PARA ADULTOS MAYORES */
+    .screen {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      padding: 12px 20px 18px;
+    }
+    .screen.active {
+      display: flex;
+    }
+    .section-tag {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #4f46e5;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+    .screen-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0c1830;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .screen-subtitle {
+      font-size: 15.5px;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    .status-pill {
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 12.5px;
+      font-weight: 800;
+      border-radius: 20px;
+      padding: 6px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      margin-bottom: 14px;
+    }
+    .status-pill::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      background: #f59e0b;
+      border-radius: 50%;
+    }
+
+    /* BOTÓN SOS CON LATIDO VISUAL Y ACTIVACIÓN INSTANTÁNEA (1 TOQUE) */
+    .sos-btn-wrapper {
+      margin: 10px 0 18px;
+      position: relative;
+    }
+    @keyframes sosHeartbeat {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 10px 24px rgba(225, 29, 72, 0.38), 0 0 0 0 rgba(225, 29, 72, 0.55);
+      }
+      50% {
+        transform: scale(1.022);
+        box-shadow: 0 14px 30px rgba(225, 29, 72, 0.52), 0 0 0 12px rgba(225, 29, 72, 0);
+      }
+    }
+    .sos-button {
+      width: 100%;
+      border: none;
+      border-radius: 24px;
+      padding: 24px 22px;
+      background: linear-gradient(135deg, #f43f5e, #dc2626);
+      color: #ffffff;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+      animation: sosHeartbeat 1.8s infinite ease-in-out;
+      transition: transform 0.15s ease;
+    }
+    .sos-button:active, .sos-button.confirmed {
+      animation: none;
+      transform: scale(0.97);
+      background: #be123c;
+    }
+    .sos-text h2 {
+      font-size: 21px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      line-height: 1.15;
+    }
+    .sos-text p {
+      font-size: 13.5px;
+      font-weight: 600;
+      opacity: 0.95;
+      margin-top: 4px;
+    }
+    .sos-badge-circle {
+      background: rgba(255, 255, 255, 0.25);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .sos-flash-bar {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 5px;
+      width: 0%;
+      background: #fde047;
+      transition: width 0.35s ease-out;
+    }
+    .sos-button.confirmed .sos-flash-bar {
+      width: 100%;
+    }
+
+    .btn-quick-alert {
+      width: 100%;
+      border: 2px solid #0c1830;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      color: #0c1830;
+      margin-bottom: 16px;
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .btn-quick-alert:hover {
+      background: #f8fafc;
+    }
+    .btn-quick-alert strong {
+      display: block;
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .btn-quick-alert p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .badge-notice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: auto;
+      padding: 4px 2px;
+    }
+    .badge-notice svg {
+      width: 20px;
+      height: 20px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    /* PASO 2: UBICACIÓN RÁPIDA EN INTERIORES */
+    .radar-compact {
+      background: #0c1830;
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+    .radar-mini-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #1a2a4b;
+      border: 2px solid #3b82f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+    .radar-compact h3 {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+    .radar-compact p {
+      font-size: 12.5px;
+      color: #cbd5e1;
+    }
+
+    .zone-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .zone-btn {
+      border: 2px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 16px 12px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #0c1830;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .zone-btn span.zone-icon {
+      font-size: 22px;
+    }
+    .zone-btn:hover {
+      border-color: #0c1830;
+      background: #f1f5f9;
+    }
+    .zone-btn.selected {
+      background: #0c1830;
+      color: #ffffff;
+      border-color: #0c1830;
+      box-shadow: 0 6px 16px rgba(12, 24, 48, 0.22);
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+    .input-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0c1830;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .text-input {
+      width: 100%;
+      border: 2px solid var(--border-gray);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 15.5px;
+      font-weight: 600;
+      color: #0f172a;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .text-input:focus {
+      border-color: #0c1830;
+    }
+
+    /* PASO 3: 4 CATEGORÍAS DE EMERGENCIA */
+    .reason-card {
+      border: 2px solid #fecdd3;
+      background: #fff1f2;
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .reason-card.medical {
+      border-color: #fed7aa;
+      background: #fff7ed;
+    }
+    .reason-card.lost {
+      border-color: #fde68a;
+      background: #fffbeb;
+    }
+    .reason-card.disaster {
+      border-color: #bfdbfe;
+      background: #eff6ff;
+    }
+    .reason-card.selected {
+      border-color: #0c1830;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(12, 24, 48, 0.12);
+      transform: translateY(-1px);
+    }
+    .reason-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .reason-card h4 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0c1830;
+      margin-bottom: 2px;
+    }
+    .reason-card p {
+      font-size: 13.5px;
+      color: #475569;
+      line-height: 1.3;
+      font-weight: 500;
+    }
+
+    .coord-banner {
+      background: #f1f5f9;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      color: #0c1830;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .btn-main {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 17px;
+      font-size: 16.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-yellow {
+      background: #f5b027;
+      color: #0c1830;
+    }
+    .btn-yellow:hover {
+      background: #eab308;
+    }
+    .btn-dark {
+      background: #0c1830;
+      color: #ffffff;
+    }
+    .btn-dark:hover {
+      background: #1e293b;
+    }
+    .btn-cancel-subtle {
+      width: 100%;
+      background: transparent;
+      border: 1.5px solid #cbd5e1;
+      color: #475569;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: auto;
+      transition: all 0.15s;
+    }
+    .btn-cancel-subtle:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+
+    /* PASO 4: ESTADO EN VIVO */
+    .status-tracker-card {
+      background: #0c1830;
+      border-radius: 18px;
+      padding: 14px 18px;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .live-reassurance {
+      background: #ecfdf5;
+      border: 1.5px solid #a7f3d0;
+      color: #065f46;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .timeline {
+      position: relative;
+      padding-left: 42px;
+      margin: 10px 0 16px;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      background: #e2e8f0;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -42px;
+      top: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      background: #f1f5f9;
+      color: #64748b;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+    }
+    .timeline-dot.done {
+      background: #10b981;
+      color: #ffffff;
+    }
+    .timeline-item h5 {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: #0c1830;
+    }
+    .timeline-item p {
+      font-size: 13.5px;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .info-summary-box {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+    .info-row {
+      margin-bottom: 10px;
+    }
+    .info-row:last-child {
+      margin-bottom: 0;
+    }
+    .info-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .info-value {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: #0c1830;
+      margin-top: 2px;
+    }
+
+    /* VISTA SEGURIDAD (PANEL DEL GUARDIA) */
+    .guard-panel {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      padding: 16px 20px 20px;
+      background: #f8fafc;
+    }
+    .guard-panel.active {
+      display: flex;
+    }
+    .guard-header-card {
+      background: #0c1830;
+      color: #ffffff;
+      padding: 16px;
+      border-radius: 18px;
+      margin-bottom: 16px;
+    }
+    .guard-header-card h2 {
+      font-size: 19px;
+      font-weight: 800;
+      color: #f5b027;
+      margin-bottom: 4px;
+    }
+    .guard-header-card p {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .guard-alert-card {
+      background: #ffffff;
+      border: 2px solid #e11d48;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 10px 25px rgba(225, 29, 72, 0.12);
+      margin-bottom: 16px;
+    }
+    .guard-alert-card.confirmed-guard {
+      border-color: #10b981;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.12);
+    }
+    .guard-badge-live {
+      display: inline-block;
+      background: #ffe4e6;
+      color: #be123c;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .guard-alert-card.confirmed-guard .guard-badge-live {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .guard-empty {
+      background: #ffffff;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 18px;
+      padding: 28px 18px;
+      text-align: center;
+      color: #64748b;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: auto;
+    }
+
+    /* ENLACE DIRECTO EMERGENCIAS LOCALES (tel:105) */
+    .emergency-call-footer {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #e2e8f0;
+      text-align: center;
+    }
+    .btn-call-105 {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 14px;
+      background: #fef2f2;
+      border: 1.5px solid #fecaca;
+      color: #b91c1c;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-call-105:hover {
+      background: #fee2e2;
+    }
   </style>
 </head>
 <body>
   <div class="app-container">
-    <!-- SPLASH SCREEN EN AZUL OSCURO NOCHE -->
+    <!-- SPLASH SCREEN EN AZUL NOCHE -->
     <div class="splash-screen" id="splashScreen">
       <div class="splash-logo-card">
         <img src="logo.png" alt="Logo ChoriApp">
@@ -199,10 +856,10 @@
       <div class="splash-loader"></div>
     </div>
 
-    <!-- HEADER -->
+    <!-- ENCABEZADO ESTANDARIZADO EN LOS 4 PASOS -->
     <div class="header">
       <div class="header-brand">
-        <button id="btnBack" class="btn-back" onclick="goToStep(currentStep - 1)">←</button>
+        <button id="btnBack" class="btn-back" onclick="goToStep(currentStep - 1)" aria-label="Volver">←</button>
         <div class="logo-container">
           <img src="logo.png" alt="Logo ChoriApp">
         </div>
@@ -212,81 +869,112 @@
         </div>
       </div>
     </div>
+
     <div class="sub-bar">
-      <div class="step-indicator">
+      <div class="step-indicator" id="visitorStepIndicator">
         <div class="step-dot active" id="dot1"></div>
         <div class="step-dot" id="dot2"></div>
         <div class="step-dot" id="dot3"></div>
         <div class="step-dot" id="dot4"></div>
-        <span id="stepLabel" style="margin-left: 8px;">Paso 1 de 4</span>
+        <span id="stepLabel" style="margin-left: 6px;">Paso 1 de 4</span>
       </div>
-      <div class="badge-demo">MODO DEMO</div>
+      <button class="btn-mode-toggle" id="modeToggleBtn" onclick="toggleRoleView()">
+        <span id="modeIcon">🛡️</span>
+        <span id="modeText">MODO DEMO</span>
+      </button>
     </div>
+
     <div class="user-info-bar">
       <span class="user-mall" id="mallLabel">📍 Mall Plaza Central</span>
     </div>
 
-    <!-- PASO 1 -->
+    <!-- ==================== VISTA VISITANTE ==================== -->
+
+    <!-- PASO 1: ACTIVACIÓN SOS INSTANTÁNEA (1 TOQUE) -->
     <section class="screen active" id="step1">
       <div class="status-pill">EQUIPO DE RESPUESTA ACTIVO</div>
       <h2 class="screen-title">Tu seguridad,<br>en un solo clic.</h2>
       <p class="screen-subtitle">Conectamos contigo al equipo de seguridad más cercano dentro del centro comercial.</p>
+
       <div class="sos-btn-wrapper">
-        <button class="sos-button" id="sosHoldBtn">
-          <div class="sos-progress-fill" id="sosProgress"></div>
+        <button class="sos-button" id="sosInstantBtn" onclick="triggerInstantSOS()">
           <div class="sos-text">
-            <h2>PEDIR AYUDA SOS</h2>
-            <p id="sosHelpLabel">MANTÉN PRESIONADO 2 SEGUNDOS</p>
+            <h2 id="sosMainTitle">PEDIR AYUDA SOS</h2>
+            <p id="sosSubTitle">TOCA AQUÍ PARA PEDIR AYUDA AHORA</p>
           </div>
           <div class="sos-badge-circle">SOS</div>
         </button>
       </div>
+
       <button class="btn-quick-alert" onclick="goToStep(2)">
         <div>
-          <div>Alerta rápida con ubicación</div>
-          <p>Comparte tu ubicación y solicita un agente</p>
+          <strong>Elegir ubicación primero</strong>
+          <p>Indica tu piso o zona dentro del mall</p>
         </div>
-        <span>📍</span>
+        <span style="font-size: 22px;">📍</span>
       </button>
+
       <div class="badge-notice">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>No necesitas registrarte · Atención dentro del mall</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Sin registros · Atención inmediata dentro del mall</span>
       </div>
-      <div class="footer-note">Si estás en peligro inmediato, llama también a emergencias locales.</div>
+
+      <div class="emergency-call-footer">
+        <a href="tel:105" class="btn-call-105">📞 ¿Peligro inmediato? Llamar a Emergencias (105)</a>
+      </div>
     </section>
 
-    <!-- PASO 2 -->
+    <!-- PASO 2: OPTIMIZACIÓN DE UBICACIÓN EN INTERIORES -->
     <section class="screen" id="step2">
-      <div class="section-tag">PASO 2 · PEDIR AYUDA</div>
-      <h2 class="screen-title">Primero, encontremos dónde estás.</h2>
-      <p class="screen-subtitle">Compartiremos tu ubicación solo con el equipo de seguridad de este centro comercial.</p>
-      <div class="radar-card">
-        <div class="radar-circle">
-          <svg class="radar-arrow" viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+      <div class="section-tag">PASO 2 · DÓNDE ESTÁS</div>
+      <h2 class="screen-title">¿En qué zona del mall estás?</h2>
+      <p class="screen-subtitle">Toca un botón para avanzar al instante o escribe una referencia.</p>
+
+      <div class="radar-compact">
+        <div class="radar-mini-circle" id="radarIcon">📡</div>
+        <div>
+          <h3 id="geoStatusTitle">Detectando sector...</h3>
+          <p id="geoStatusDesc">Selecciona tu piso para mayor precisión</p>
         </div>
-        <h3 id="geoStatusTitle">Buscando tu ubicación...</h3>
-        <p id="geoStatusDesc">Obteniendo coordenadas GPS...</p>
       </div>
-      <div class="warning-box" id="gpsWarning" style="display:none;">
-        <strong>⚠️ Señal no obtenida</strong>
-        <span>Dentro del centro comercial puedes escribir una referencia manual.</span>
+
+      <div class="zone-grid">
+        <button class="zone-btn" onclick="selectZoneAndAdvance(this, 'Piso 1')">
+          <span class="zone-icon">🏬</span>
+          <span>Piso 1</span>
+        </button>
+        <button class="zone-btn" onclick="selectZoneAndAdvance(this, 'Piso 2 · Comidas')">
+          <span class="zone-icon">🍔</span>
+          <span>Piso 2 · Comidas</span>
+        </button>
+        <button class="zone-btn" onclick="selectZoneAndAdvance(this, 'Entrada Principal')">
+          <span class="zone-icon">🚪</span>
+          <span>Entrada Principal</span>
+        </button>
+        <button class="zone-btn" onclick="selectZoneAndAdvance(this, 'Estacionamiento E1')">
+          <span class="zone-icon">🚗</span>
+          <span>Estacionamiento E1</span>
+        </button>
       </div>
+
       <div class="input-group">
-        <label class="input-label">Si el GPS falla, escribe una referencia</label>
-        <input type="text" id="manualLocation" class="text-input" placeholder="Ej. Piso 2 - zona de comidas" value="Piso 2 - zona de comidas">
+        <label class="input-label">Referencia breve (opcional)</label>
+        <input type="text" id="manualLocation" class="text-input" placeholder="Ej. Frente a farmacia o ascensores">
       </div>
-      <div style="display: flex; gap: 8px; margin-top: auto;">
-        <button class="btn-main btn-outline" style="flex:1;" onclick="setDemoLocation()">Usar demo</button>
-        <button class="btn-main btn-yellow" style="flex:1;" onclick="goToStep(3)">Continuar →</button>
+
+      <button class="btn-main btn-yellow" style="margin-top: auto;" onclick="confirmManualLocation()">Continuar →</button>
+
+      <div class="emergency-call-footer">
+        <a href="tel:105" class="btn-call-105">📞 ¿Peligro inmediato? Llamar a Emergencias (105)</a>
       </div>
-      <div class="footer-note">Si estás en peligro inmediato, llama también a emergencias locales.</div>
     </section>
 
-    <!-- PASO 3 -->
+    <!-- PASO 3: 4 CATEGORÍAS DE EMERGENCIA -->
     <section class="screen" id="step3">
-      <div class="section-tag">PASO 3 · UBICAR</div>
+      <div class="section-tag">PASO 3 · QUÉ SUCEDE</div>
       <h2 class="screen-title">¿Qué necesitas?</h2>
-      <p class="screen-subtitle">Toca una opción. No tienes que explicar todo.</p>
+      <p class="screen-subtitle">Toca una opción para enviar la alerta de inmediato.</p>
+
       <div class="reason-card selected" onclick="selectReason(this, 'Me siento en riesgo')">
         <div class="reason-icon">🛡️</div>
         <div>
@@ -294,6 +982,7 @@
           <p>Acoso, amenaza o personas sospechosas</p>
         </div>
       </div>
+
       <div class="reason-card medical" onclick="selectReason(this, 'Emergencia médica')">
         <div class="reason-icon">🩺</div>
         <div>
@@ -301,6 +990,7 @@
           <p>Desmayo, caída o primeros auxilios</p>
         </div>
       </div>
+
       <div class="reason-card lost" onclick="selectReason(this, 'Niño/persona extraviada')">
         <div class="reason-icon">👤</div>
         <div>
@@ -308,79 +998,119 @@
           <p>Menor o adulto mayor desorientado</p>
         </div>
       </div>
-      <div class="input-group" style="margin-top: 10px;">
-        <label class="input-label">Referencia exacta (opcional)</label>
-        <input type="text" id="finalReference" class="text-input" value="Piso 2 - zona de comidas frente a la entrada">
+
+      <div class="reason-card disaster" onclick="selectReason(this, 'Sismo o desastre natural')">
+        <div class="reason-icon">⚠️</div>
+        <div>
+          <h4>Sismo o desastre natural</h4>
+          <p>Evacuación, caída de estructuras o persona atrapada</p>
+        </div>
       </div>
-      <div class="chips-row">
-        <span class="chip" onclick="addChip('Piso 1')">Piso 1</span>
-        <span class="chip active" onclick="addChip('Piso 2 · Comidas')">Piso 2 · Comidas</span>
-        <span class="chip" onclick="addChip('Estacionamiento E1')">Estacionamiento E1</span>
-      </div>
+
       <div class="coord-banner">
-        <span>📍 Ubicación lista</span>
-        <span id="coordDisplay">-11.9564, -77.0543</span>
+        <span>📍 Ubicación seleccionada:</span>
+        <span id="step3LocationPreview" style="color: #4f46e5;">Piso 1</span>
       </div>
-      <button class="btn-main btn-dark" onclick="sendAlert()">ENVIAR SOLICITUD AHORA ↗</button>
-      <div class="footer-note">Si estás en peligro inmediato, llama también a emergencias locales.</div>
+
+      <button class="btn-main btn-dark" style="margin-top: auto;" onclick="sendAlert()">ENVIAR SOLICITUD AHORA ↗</button>
+
+      <div class="emergency-call-footer">
+        <a href="tel:105" class="btn-call-105">📞 ¿Peligro inmediato? Llamar a Emergencias (105)</a>
+      </div>
     </section>
 
-    <!-- PASO 4 -->
+    <!-- PASO 4: DATOS DINÁMICOS Y PROGRESO EN TIEMPO REAL -->
     <section class="screen" id="step4">
-      <div class="section-tag">PASO 4 · RECIBIR ESTADO</div>
+      <div class="section-tag">PASO 4 · AYUDA EN CAMINO</div>
       <h2 class="screen-title">Solicitud recibida.</h2>
-      <p class="screen-subtitle">Quédate donde estás si es seguro. El equipo ya está avisado.</p>
-      <div class="status-tracker-card">
-        <span style="display:flex; align-items:center; gap:6px;">🟡 Alerta activa</span>
-        <span id="timerDisplay">00:02</span>
+
+      <div class="live-reassurance">
+        <span>🛡️</span>
+        <span>Quédate donde estás, un agente se dirige a tu punto.</span>
       </div>
+
+      <div class="status-tracker-card">
+        <span style="display:flex; align-items:center; gap:8px;">🟡 Alerta activa</span>
+        <span id="timerDisplay">00:00</span>
+      </div>
+
       <div class="timeline">
         <div class="timeline-item">
           <div class="timeline-dot done">✓</div>
-          <h5>Enviado</h5>
+          <h5>1. Enviado ✓</h5>
           <p>Tu alerta fue transmitida a la central</p>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot" id="dotStep2">2</div>
-          <h5>Recibido por seguridad</h5>
-          <p id="descStep2">Esperando confirmación...</p>
+          <h5 id="titleStep2">2. Recibido por seguridad</h5>
+          <p id="descStep2">Conectando con central...</p>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot" id="dotStep3">3</div>
-          <h5>Ayuda en camino</h5>
-          <p id="descStep3">Esperando confirmación...</p>
+          <h5 id="titleStep3">3. Ayuda en camino</h5>
+          <p id="descStep3">Asignando agente cercano...</p>
         </div>
       </div>
+
       <div class="info-summary-box">
         <div class="info-row">
           <div class="info-label">Motivo</div>
-          <div class="info-value" id="summaryReason">Me siento en riesgo</div>
+          <div class="info-value" id="summaryReason">—</div>
         </div>
-        <div class="info-row" style="margin-top:8px;">
+        <div class="info-row">
           <div class="info-label">Dónde</div>
-          <div class="info-value" id="summaryLocation">Piso 2 - zona de comidas</div>
+          <div class="info-value" id="summaryLocation">—</div>
         </div>
       </div>
-      <button class="btn-main btn-outline" style="margin-top:auto;" onclick="cancelAlert()">Ya llegó la ayuda / falsa alarma</button>
-      <div class="footer-note">Si estás en peligro inmediato, llama también a emergencias locales.</div>
+
+      <button class="btn-cancel-subtle" onclick="confirmCancelAlert()">
+        Cancelar solicitud (falsa alarma / ya estoy a salvo)
+      </button>
+
+      <div class="emergency-call-footer">
+        <a href="tel:105" class="btn-call-105">📞 ¿Peligro inmediato? Llamar a Emergencias (105)</a>
+      </div>
+    </section>
+
+    <!-- ==================== VISTA SEGURIDAD (PANEL DEL GUARDIA) ==================== -->
+    <section class="guard-panel" id="guardPanel">
+      <div class="guard-header-card">
+        <h2>🛡️ Central de Seguridad — Mall</h2>
+        <p>Monitoreo en tiempo real de alertas de visitantes</p>
+      </div>
+
+      <div id="guardAlertContainer">
+        <!-- Se llena dinámicamente cuando hay alerta o muestra estado sin alertas -->
+      </div>
+
+      <button class="btn-main btn-dark" style="margin-top: auto;" onclick="toggleRoleView()">
+        ← Volver a Vista Visitante
+      </button>
     </section>
   </div>
 
   <script>
+    // Splash ultrarrápido de 1.1s para no frenar emergencias
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const splash = document.getElementById('splashScreen');
         if (splash) splash.classList.add('hidden');
-      }, 2200);
+      }, 1100);
     });
 
     let currentStep = 1;
+    let isGuardView = false;
+    let selectedLocation = "Piso 1";
     let selectedReason = "Me siento en riesgo";
-    let timerInterval = null;
-    let secondsElapsed = 2;
-    let holdStartTime = 0;
-    let holdProgressInterval = null;
+    let alertActive = false;
+    let guardConfirmed = false;
 
+    let timerInterval = null;
+    let step2Timeout = null;
+    let step3Timeout = null;
+    let secondsElapsed = 0;
+
+    // Catálogo de centros comerciales para detección automática
     const MALLS = [
       { name: "Mallplaza Comas", lat: -11.9564, lng: -77.0543 },
       { name: "MegaPlaza Independencia", lat: -11.9942, lng: -77.0624 },
@@ -395,189 +1125,299 @@
       const R = 6371;
       const dLat = (lat2 - lat1) * Math.PI / 180;
       const dLon = (lon2 - lon1) * Math.PI / 180;
-      const a = 
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-        Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
     }
 
-    async function updateNearestMall(lat, lng) {
-      const mallLabel = document.getElementById('mallLabel');
-      let nearest = null;
-      let minDistance = Infinity;
-
-      MALLS.forEach(mall => {
-        const dist = getDistanceKm(lat, lng, mall.lat, mall.lng);
-        if (dist < minDistance) {
-          minDistance = dist;
-          nearest = mall;
-        }
-      });
-
-      if (nearest && minDistance <= 3.5) {
-        mallLabel.textContent = `📍 ${nearest.name}`;
-      } else {
-        try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
-          const data = await res.json();
-          const place = data.address.suburb || data.address.neighbourhood || data.address.city_district || data.address.city || "Zona comercial";
-          mallLabel.textContent = `📍 ${place}`;
-        } catch (e) {
-          mallLabel.textContent = nearest ? `📍 Cerca de ${nearest.name}` : "📍 Mall Plaza Central";
-        }
-      }
-    }
-
-    function goToStep(step) {
-      if (step < 1) step = 1;
-      if (step > 4) step = 4;
-      currentStep = step;
-      document.querySelectorAll('.screen').forEach((el, idx) => {
-        el.classList.toggle('active', idx + 1 === step);
-      });
-      document.getElementById('btnBack').style.display = (step > 1 && step < 4) ? 'block' : 'none';
-      document.getElementById('stepLabel').textContent = `Paso ${step} de 4`;
-      for (let i = 1; i <= 4; i++) {
-        const dot = document.getElementById(`dot${i}`);
-        if (i <= step) dot.classList.add('active');
-        else dot.classList.remove('active');
-      }
-      if (step === 2) initGeolocation();
-    }
-
-    function initGeolocation() {
-      const title = document.getElementById('geoStatusTitle');
-      const desc = document.getElementById('geoStatusDesc');
-      const warning = document.getElementById('gpsWarning');
-      
-      title.textContent = "Buscando tu ubicación...";
-      desc.textContent = "Obteniendo coordenadas GPS...";
-      warning.style.display = 'none';
-
-      if (!navigator.geolocation) {
-        title.textContent = "GPS no compatible";
-        desc.textContent = "Tu navegador no soporta geolocalización";
-        warning.style.display = 'block';
-        return;
-      }
-
+    function detectMallInBackground() {
+      if (!navigator.geolocation) return;
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const lat = pos.coords.latitude;
           const lng = pos.coords.longitude;
-          document.getElementById('coordDisplay').textContent = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-          title.textContent = "¡Ubicación detectada!";
-          desc.textContent = `Precisión aprox.: ±${Math.round(pos.coords.accuracy)} m`;
-          warning.style.display = 'none';
-
-          updateNearestMall(lat, lng);
-        },
-        (err) => {
-          let errorMsg = "Dentro del centro comercial puedes escribir una referencia manual.";
-          if (err.code === 1) {
-            title.textContent = "Permiso denegado";
-            errorMsg = "Por favor, autoriza el permiso de ubicación en tu navegador para continuar.";
-          } else if (err.code === 2) {
-            title.textContent = "Señal no disponible";
-          } else if (err.code === 3) {
-            title.textContent = "Tiempo de espera agotado";
+          let nearest = null;
+          let minDistance = Infinity;
+          MALLS.forEach(mall => {
+            const dist = getDistanceKm(lat, lng, mall.lat, mall.lng);
+            if (dist < minDistance) {
+              minDistance = dist;
+              nearest = mall;
+            }
+          });
+          if (nearest && minDistance <= 4.0) {
+            document.getElementById('mallLabel').textContent = `📍 ${nearest.name}`;
           }
-          desc.textContent = "Usando referencia aproximada";
-          warning.innerHTML = `<strong>⚠️ Señal no obtenida</strong><span>${errorMsg}</span>`;
-          warning.style.display = 'block';
         },
-        {
-          enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 10000
-        }
+        () => {},
+        { enableHighAccuracy: false, timeout: 3000 }
       );
     }
 
-    function setDemoLocation() {
-      document.getElementById('manualLocation').value = "Piso 2 - zona de comidas frente a la entrada";
-      document.getElementById('coordDisplay').textContent = "-11.9564, -77.0543";
-      document.getElementById('mallLabel').textContent = "📍 Mallplaza Comas (Demo)";
+    detectMallInBackground();
+
+    // 1. ACTIVACIÓN SOS INSTANTÁNEA (0.35s feedback + avance inmediato)
+    function triggerInstantSOS() {
+      const btn = document.getElementById('sosInstantBtn');
+      const mainTitle = document.getElementById('sosMainTitle');
+      const subTitle = document.getElementById('sosSubTitle');
+
+      btn.classList.add('confirmed');
+      mainTitle.textContent = "¡SOLICITUD INICIADA!";
+      subTitle.textContent = "Elige tu ubicación...";
+
+      setTimeout(() => {
+        btn.classList.remove('confirmed');
+        mainTitle.textContent = "PEDIR AYUDA SOS";
+        subTitle.textContent = "TOCA AQUÍ PARA PEDIR AYUDA AHORA";
+        goToStep(2);
+      }, 350);
+    }
+
+    // NAVEGACIÓN ENTRE PASOS
+    function goToStep(step) {
+      if (step < 1) step = 1;
+      if (step > 4) step = 4;
+      currentStep = step;
+
+      if (isGuardView) {
+        isGuardView = false;
+        updateRoleUI();
+      }
+
+      document.querySelectorAll('.screen').forEach((el, idx) => {
+        el.classList.toggle('active', idx + 1 === step);
+      });
+
+      document.getElementById('btnBack').style.display = (step > 1 && step < 4) ? 'flex' : 'none';
+      document.getElementById('stepLabel').textContent = `Paso ${step} de 4`;
+
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById(`dot${i}`);
+        dot.classList.toggle('active', i <= step);
+      }
+
+      if (step === 2) {
+        runFastIndoorGPS();
+      }
+      if (step === 3) {
+        document.getElementById('step3LocationPreview').textContent = selectedLocation;
+      }
+    }
+
+    // 2. OPTIMIZACIÓN DE UBICACIÓN EN INTERIORES (Máximo 1 segundo)
+    function runFastIndoorGPS() {
+      const title = document.getElementById('geoStatusTitle');
+      const desc = document.getElementById('geoStatusDesc');
+      const icon = document.getElementById('radarIcon');
+
+      title.textContent = "Buscando señal...";
+      desc.textContent = "Verificando sector del mall...";
+      icon.textContent = "📡";
+
+      setTimeout(() => {
+        title.textContent = "Listo para seleccionar piso";
+        desc.textContent = "Toca tu zona abajo para continuar al instante";
+        icon.textContent = "📍";
+      }, 900);
+    }
+
+    function selectZoneAndAdvance(btnEl, zoneName) {
+      document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('selected'));
+      btnEl.classList.add('selected');
+
+      const extraRef = document.getElementById('manualLocation').value.trim();
+      selectedLocation = extraRef ? `${zoneName} (${extraRef})` : zoneName;
+
+      setTimeout(() => {
+        goToStep(3);
+      }, 180);
+    }
+
+    function confirmManualLocation() {
+      const extraRef = document.getElementById('manualLocation').value.trim();
+      const selectedBtn = document.querySelector('.zone-btn.selected');
+      const baseZone = selectedBtn ? selectedBtn.querySelector('span:last-child').textContent : "Sector General";
+
+      selectedLocation = extraRef ? `${baseZone} - ${extraRef}` : baseZone;
       goToStep(3);
     }
 
+    // 3. SELECCIÓN DE CATEGORÍA DE EMERGENCIA
     function selectReason(cardEl, reason) {
       document.querySelectorAll('.reason-card').forEach(c => c.classList.remove('selected'));
       cardEl.classList.add('selected');
       selectedReason = reason;
     }
 
-    function addChip(text) {
-      document.getElementById('finalReference').value = text;
-    }
-
+    // 4. ENVÍO DE ALERTA Y PROGRESO AUTOMÁTICO EN TIEMPO REAL
     function sendAlert() {
+      alertActive = true;
+      guardConfirmed = false;
+
+      // Inyectar datos dinámicos reales en la tarjeta de resumen
       document.getElementById('summaryReason').textContent = selectedReason;
-      const ref = document.getElementById('finalReference').value || document.getElementById('manualLocation').value;
-      document.getElementById('summaryLocation').textContent = ref;
+      document.getElementById('summaryLocation').textContent = selectedLocation;
+
+      resetTimelineUI();
       goToStep(4);
-      startTimer();
-      setTimeout(() => {
-        const dot2 = document.getElementById('dotStep2');
-        dot2.classList.add('done');
-        dot2.textContent = '✓';
-        document.getElementById('descStep2').textContent = 'Agente asignado: Central Centro';
-      }, 3500);
-      setTimeout(() => {
-        const dot3 = document.getElementById('dotStep3');
-        dot3.classList.add('done');
-        dot3.textContent = '✓';
-        document.getElementById('descStep3').textContent = 'Personal en trayecto';
-      }, 7000);
+      startLiveSimulation();
+      renderGuardPanel();
     }
 
-    function startTimer() {
+    function resetTimelineUI() {
+      clearTimeout(step2Timeout);
+      clearTimeout(step3Timeout);
+
+      const dot2 = document.getElementById('dotStep2');
+      dot2.classList.remove('done');
+      dot2.textContent = '2';
+      document.getElementById('titleStep2').textContent = '2. Recibido por seguridad';
+      document.getElementById('descStep2').textContent = 'Conectando con central...';
+
+      const dot3 = document.getElementById('dotStep3');
+      dot3.classList.remove('done');
+      dot3.textContent = '3';
+      document.getElementById('titleStep3').textContent = '3. Ayuda en camino';
+      document.getElementById('descStep3').textContent = 'Asignando agente cercano...';
+    }
+
+    function startLiveSimulation() {
       clearInterval(timerInterval);
-      secondsElapsed = 2;
+      secondsElapsed = 0;
+      document.getElementById('timerDisplay').textContent = "00:00";
+
       timerInterval = setInterval(() => {
         secondsElapsed++;
         const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
         const secs = String(secondsElapsed % 60).padStart(2, '0');
         document.getElementById('timerDisplay').textContent = `${mins}:${secs}`;
       }, 1000);
+
+      // A los 3 segundos: Recibido por seguridad ✓ (Central Mall Plaza)
+      step2Timeout = setTimeout(() => {
+        markStep2Confirmed();
+      }, 3000);
+
+      // A los 6 segundos: Ayuda en camino ✓ (Agente más cercano a ~1 min)
+      step3Timeout = setTimeout(() => {
+        markStep3Confirmed();
+      }, 6000);
     }
 
-    function cancelAlert() {
-      clearInterval(timerInterval);
-      goToStep(1);
+    function markStep2Confirmed() {
+      guardConfirmed = true;
+      const dot2 = document.getElementById('dotStep2');
+      dot2.classList.add('done');
+      dot2.textContent = '✓';
+      document.getElementById('titleStep2').textContent = '2. Recibido por seguridad ✓';
+      document.getElementById('descStep2').textContent = 'Central Mall Plaza';
+      renderGuardPanel();
     }
 
-    const sosBtn = document.getElementById('sosHoldBtn');
-    const progressBar = document.getElementById('sosProgress');
-    const label = document.getElementById('sosHelpLabel');
-
-    function startHold(e) {
-      e.preventDefault();
-      holdStartTime = Date.now();
-      label.textContent = "MANTÉN PRESIONADO...";
-      holdProgressInterval = setInterval(() => {
-        const elapsed = Date.now() - holdStartTime;
-        const pct = Math.min(100, (elapsed / 2000) * 100);
-        progressBar.style.width = pct + '%';
-        if (elapsed >= 2000) {
-          endHold();
-          goToStep(2);
-        }
-      }, 30);
+    function markStep3Confirmed() {
+      const dot3 = document.getElementById('dotStep3');
+      dot3.classList.add('done');
+      dot3.textContent = '✓';
+      document.getElementById('titleStep3').textContent = '3. Ayuda en camino ✓';
+      document.getElementById('descStep3').textContent = 'Agente más cercano a ~1 min';
     }
 
-    function endHold() {
-      clearInterval(holdProgressInterval);
-      progressBar.style.width = '0%';
-      label.textContent = "MANTÉN PRESIONADO 2 SEGUNDOS";
+    // 5. CANCELACIÓN CON CONFIRMACIÓN (PREVENCIÓN DE ERRORES)
+    function confirmCancelAlert() {
+      const ok = confirm("¿Confirmas que deseas cancelar la solicitud porque es una falsa alarma o ya estás a salvo?");
+      if (ok) {
+        clearInterval(timerInterval);
+        clearTimeout(step2Timeout);
+        clearTimeout(step3Timeout);
+        alertActive = false;
+        guardConfirmed = false;
+        selectedLocation = "Piso 1";
+        document.getElementById('manualLocation').value = "";
+        document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('selected'));
+        renderGuardPanel();
+        goToStep(1);
+      }
     }
 
-    sosBtn.addEventListener('mousedown', startHold);
-    window.addEventListener('mouseup', endHold);
-    sosBtn.addEventListener('touchstart', startHold);
-    window.addEventListener('touchend', endHold);
+    // 6. VISTA DEL GUARDIA / CENTRAL (ALTERNAR CON BOTÓN SUPERIOR)
+    function toggleRoleView() {
+      isGuardView = !isGuardView;
+      updateRoleUI();
+    }
+
+    function updateRoleUI() {
+      const toggleBtn = document.getElementById('modeToggleBtn');
+      const modeIcon = document.getElementById('modeIcon');
+      const modeText = document.getElementById('modeText');
+      const guardPanel = document.getElementById('guardPanel');
+      const visitorIndicator = document.getElementById('visitorStepIndicator');
+      const btnBack = document.getElementById('btnBack');
+
+      if (isGuardView) {
+        toggleBtn.classList.add('guard-active');
+        modeIcon.textContent = "👁️";
+        modeText.textContent = "VISTA GUARDIA";
+        visitorIndicator.style.visibility = "hidden";
+        btnBack.style.display = "none";
+
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        guardPanel.classList.add('active');
+        renderGuardPanel();
+      } else {
+        toggleBtn.classList.remove('guard-active');
+        modeIcon.textContent = "🛡️";
+        modeText.textContent = "MODO DEMO";
+        visitorIndicator.style.visibility = "visible";
+
+        guardPanel.classList.remove('active');
+        goToStep(currentStep);
+      }
+    }
+
+    function renderGuardPanel() {
+      const container = document.getElementById('guardAlertContainer');
+      if (!alertActive) {
+        container.innerHTML = `
+          <div class="guard-empty">
+            <div style="font-size: 32px; margin-bottom: 8px;">✅</div>
+            <div>Sin emergencias activas en este momento.</div>
+            <p style="font-size: 13px; margin-top: 6px; font-weight: 500;">Cuando un visitante active una alerta SOS, aparecerá aquí al instante.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="guard-alert-card ${guardConfirmed ? 'confirmed-guard' : ''}">
+          <span class="guard-badge-live">
+            ${guardConfirmed ? '✓ RECEPCIÓN CONFIRMADA POR CENTRAL' : '🚨 ALERTA ENTRANTE EN VIVO'}
+          </span>
+          <div class="info-row">
+            <div class="info-label">Motivo de emergencia</div>
+            <div class="info-value">${selectedReason}</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Ubicación / Piso</div>
+            <div class="info-value">${selectedLocation}</div>
+          </div>
+          <div style="margin-top: 16px;">
+            ${
+              guardConfirmed
+                ? `<button class="btn-main" style="background:#10b981; color:#fff;" disabled>✓ Agente despachado al punto</button>`
+                : `<button class="btn-main btn-yellow" onclick="guardConfirmReceipt()">Confirmar recepción y enviar agente</button>`
+            }
+          </div>
+        </div>
+      `;
+    }
+
+    function guardConfirmReceipt() {
+      markStep2Confirmed();
+      markStep3Confirmed();
+      renderGuardPanel();
+    }
   </script>
 </body>
 </html>
